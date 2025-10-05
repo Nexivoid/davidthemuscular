@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>David The Muscular</title>
+    <link rel="icon" type="image/png" href="assets/David.png">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: black;
+            font-family: Arial, sans-serif;
+        }
+
+        video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: contain; /* teljes kép látszik, arányos */
+    background: black;   /* a fekete sávokhoz */
+   }
+
+
+        #clickHint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 15px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        #downloadBtn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: yellow;
+            color: black;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #downloadBtn:hover {
+            background-color: gold;
+        }
+    </style>
+</head>
+<body>
+    <video id="bgVideo" autoplay loop muted playsinline>
+        <source src="assets/BaszuckiMuscle.mp4" type="video/mp4">
+        Your browser doesn't support video playing.
+    </video>
+
+    <audio id="bgMusic" loop>
+        <source src="assets/MuscleMusic.mp3" type="audio/mpeg">
+        Your browser doesn't support sound playing.
+    </audio>
+
+    <div id="clickHint">Click the video for sound!</div>
+    <button id="downloadBtn">Download</button>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+        const video = document.getElementById('bgVideo');
+
+        const playMusic = () => {
+            music.play().catch(() => {
+                document.body.addEventListener('click', () => music.play(), { once: true });
+            });
+        };
+        video.addEventListener('canplay', playMusic);
+
+        const downloadBtn = document.getElementById('downloadBtn');
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.href = 'assets/BaszuckiMuscle.mp4';
+            link.download = 'BaszuckiMuscle.mp4';
+            link.click();
+        });
+    </script>
+</body>
+</html>
